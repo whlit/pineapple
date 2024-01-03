@@ -45,13 +45,15 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  outline: none;
 }
 button:hover {
   border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
+  border-color: #646cff;
 }
 
 @media (prefers-color-scheme: light) {
@@ -65,4 +67,9 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+input {
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid #dfe1e5;
 }

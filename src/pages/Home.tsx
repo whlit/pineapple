@@ -1,13 +1,16 @@
 import { useImmerReducer } from 'use-immer'
 import UrlInput from '../components/UrlInput'
+import Map, { KV } from '../components/Map'
 
 interface State {
   method: string
   url: string
+  headers: KV[]
 }
 enum ActionType {
   C_METHOD,
   C_URL,
+  A_HEADER,
 }
 type Action =
   | {
@@ -18,6 +21,9 @@ type Action =
       type: ActionType.C_URL
       url: State['url']
     }
+  | {
+      type: ActionType.A_HEADER
+    }
 
 const reducer = (draft: State, action: Action) => {
   switch (action.type) {
@@ -27,10 +33,14 @@ const reducer = (draft: State, action: Action) => {
     case ActionType.C_URL:
       draft.url = action.url
       break
+    case ActionType.A_HEADER:
+      draft.headers.push({ key: '', value: '' })
+      break
   }
 }
 function Home() {
-  const [data, dispatch] = useImmerReducer(reducer, { method: 'GET', url: '' })
+  const initData: State = { method: 'GET', url: '', headers: [] }
+  const [data, dispatch] = useImmerReducer(reducer, initData)
   return (
     <>
       <UrlInput
@@ -38,8 +48,9 @@ function Home() {
         onChangeMethod={(v) => dispatch({ type: ActionType.C_METHOD, method: v.target.value })}
         url={data.url}
         onChangeUrl={(v) => dispatch({ type: ActionType.C_URL, url: v.target.value })}
-        send={(v) => alert(data)}
+        send={() => alert(data)}
       />
+      <Map data={data.headers} addLine={() => dispatch({ type: ActionType.A_HEADER })} />
     </>
   )
 }

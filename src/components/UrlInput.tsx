@@ -38,13 +38,13 @@ function UrlInput({
           <input
             name='url'
             title='url'
-            style={{ border: '0', outline: 'none', margin: '8px 2px', flexGrow: 1 }}
+            style={{ border: '0', margin: '8px 2px', flexGrow: 1 }}
             placeholder='url'
             value={url}
             onChange={onChangeUrl}
           />
         </div>
-        <button style={{ outline: 'none', marginLeft: '3px' }} onClick={send}>
+        <button style={{ marginLeft: '3px' }} onClick={send}>
           发送
         </button>
       </div>
