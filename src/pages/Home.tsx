@@ -1,7 +1,6 @@
 import { useImmerReducer } from 'use-immer'
 import UrlInput from '../components/UrlInput'
 import Map, { KV } from '../components/Map'
-import AutoCompleteInput from '../components/AutoCompleteInput'
 
 interface State {
   method: string
@@ -51,19 +50,10 @@ function Home() {
         method={data.method}
         onChangeMethod={(v) => dispatch({ type: ActionType.U_METHOD, method: v.target.value })}
         url={data.url}
-        onChangeUrl={(v) =>
-          dispatch({ type: ActionType.U_URL, url: v.target.value, urlOptions: [] })
-        }
+        onChangeUrl={(v) => dispatch({ type: ActionType.U_URL, url: v, urlOptions: [] })}
         send={() => alert(data)}
       />
       <Map data={data.headers} addLine={() => dispatch({ type: ActionType.A_HEADER })} />
-      <AutoCompleteInput
-        value={data.url}
-        onChange={(v) => {
-          dispatch({ type: ActionType.U_URL, url: v, urlOptions: [v + 'a', v + 'b'] })
-        }}
-        options={data.urlOptions}
-      />
     </>
   )
 }

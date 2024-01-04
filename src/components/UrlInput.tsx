@@ -1,3 +1,5 @@
+import AutoInput from './AutoInput'
+
 function UrlInput({
   method,
   onChangeMethod,
@@ -8,7 +10,7 @@ function UrlInput({
   method: string
   onChangeMethod: React.ChangeEventHandler<HTMLSelectElement>
   url: string
-  onChangeUrl: React.ChangeEventHandler<HTMLInputElement>
+  onChangeUrl: (newValue: string) => void
   send: React.MouseEventHandler<Element>
 }) {
   const options = [
@@ -35,13 +37,11 @@ function UrlInput({
               <option value={option.key}>{option.label}</option>
             ))}
           </select>
-          <input
-            name='url'
-            title='url'
+          <AutoInput
             style={{ border: '0', margin: '8px 2px', flexGrow: 1 }}
-            placeholder='url'
             value={url}
             onChange={onChangeUrl}
+            expect=''
           />
         </div>
         <button style={{ marginLeft: '3px' }} onClick={send}>
