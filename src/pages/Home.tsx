@@ -1,25 +1,28 @@
 import { useImmerReducer } from 'use-immer'
 import UrlInput from '../components/UrlInput'
 import Map, { KV } from '../components/Map'
+import AutoCompleteInput from '../components/AutoCompleteInput'
 
 interface State {
   method: string
   url: string
+  urlOptions: string[]
   headers: KV[]
 }
 enum ActionType {
-  C_METHOD,
-  C_URL,
+  U_METHOD,
+  U_URL,
   A_HEADER,
 }
 type Action =
   | {
-      type: ActionType.C_METHOD
+      type: ActionType.U_METHOD
       method: State['method']
     }
   | {
-      type: ActionType.C_URL
+      type: ActionType.U_URL
       url: State['url']
+      urlOptions: State['urlOptions']
     }
   | {
       type: ActionType.A_HEADER
@@ -27,11 +30,12 @@ type Action =
 
 const reducer = (draft: State, action: Action) => {
   switch (action.type) {
-    case ActionType.C_METHOD:
+    case ActionType.U_METHOD:
       draft.method = action.method
       break
-    case ActionType.C_URL:
+    case ActionType.U_URL:
       draft.url = action.url
+      draft.urlOptions = action.urlOptions
       break
     case ActionType.A_HEADER:
       draft.headers.push({ key: '', value: '' })
@@ -39,18 +43,27 @@ const reducer = (draft: State, action: Action) => {
   }
 }
 function Home() {
-  const initData: State = { method: 'GET', url: '', headers: [] }
+  const initData: State = { method: 'GET', url: '', urlOptions: [], headers: [] }
   const [data, dispatch] = useImmerReducer(reducer, initData)
   return (
     <>
       <UrlInput
         method={data.method}
-        onChangeMethod={(v) => dispatch({ type: ActionType.C_METHOD, method: v.target.value })}
+        onChangeMethod={(v) => dispatch({ type: ActionType.U_METHOD, method: v.target.value })}
         url={data.url}
-        onChangeUrl={(v) => dispatch({ type: ActionType.C_URL, url: v.target.value })}
+        onChangeUrl={(v) =>
+          dispatch({ type: ActionType.U_URL, url: v.target.value, urlOptions: [] })
+        }
         send={() => alert(data)}
       />
       <Map data={data.headers} addLine={() => dispatch({ type: ActionType.A_HEADER })} />
+      <AutoCompleteInput
+        value={data.url}
+        onChange={(v) => {
+          dispatch({ type: ActionType.U_URL, url: v, urlOptions: [v + 'a', v + 'b'] })
+        }}
+        options={data.urlOptions}
+      />
     </>
   )
 }
