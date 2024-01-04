@@ -52,6 +52,7 @@ function Home() {
         url={data.url}
         onChangeUrl={(v) => dispatch({ type: ActionType.U_URL, url: v, urlOptions: [] })}
         send={() => alert(data)}
+        expects={['http://', 'https://', 'http://localhost']}
       />
       <Map data={data.headers} addLine={() => dispatch({ type: ActionType.A_HEADER })} />
     </>

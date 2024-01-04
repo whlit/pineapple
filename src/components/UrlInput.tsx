@@ -6,12 +6,14 @@ function UrlInput({
   url,
   onChangeUrl,
   send,
+  expects,
 }: {
   method: string
   onChangeMethod: React.ChangeEventHandler<HTMLSelectElement>
   url: string
   onChangeUrl: (newValue: string) => void
   send: React.MouseEventHandler<Element>
+  expects: string[]
 }) {
   const options = [
     { key: 'GET', label: 'GET' },
@@ -41,7 +43,7 @@ function UrlInput({
             style={{ border: '0', margin: '8px 2px', flexGrow: 1 }}
             value={url}
             onChange={onChangeUrl}
-            expect=''
+            expect={'' + expects.find((expect) => expect.startsWith(url))}
           />
         </div>
         <button style={{ marginLeft: '3px' }} onClick={send}>
