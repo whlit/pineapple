@@ -1,16 +1,11 @@
 import { useState } from 'react'
 
-const AutoInput = ({
-  value,
-  onChange,
-  expect,
-  style,
-}: {
+const AutoInput: React.FC<{
   value: string
   onChange: (newValue: string) => void
   expect: string
   style?: React.CSSProperties
-}) => {
+}> = ({ value, onChange, expect, style }) => {
   const [oldValue, setOldValue] = useState('')
   return (
     <>

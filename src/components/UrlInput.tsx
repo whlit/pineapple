@@ -1,20 +1,13 @@
 import AutoInput from './AutoInput'
 
-function UrlInput({
-  method,
-  onChangeMethod,
-  url,
-  onChangeUrl,
-  send,
-  expects,
-}: {
+const UrlInput: React.FC<{
   method: string
   onChangeMethod: React.ChangeEventHandler<HTMLSelectElement>
   url: string
   onChangeUrl: (newValue: string) => void
   send: React.MouseEventHandler<Element>
   expects: string[]
-}) {
+}> = ({ method, url, expects, onChangeMethod, onChangeUrl, send }) => {
   const options = [
     { key: 'GET', label: 'GET' },
     { key: 'POST', label: 'POST' },
@@ -43,7 +36,7 @@ function UrlInput({
             style={{ border: '0', margin: '8px 2px', flexGrow: 1 }}
             value={url}
             onChange={onChangeUrl}
-            expect={'' + expects.find((expect) => expect.startsWith(url))}
+            expect={'' + expects.find((expect) => expect !== url && expect.startsWith(url))}
           />
         </div>
         <button style={{ marginLeft: '3px' }} onClick={send}>

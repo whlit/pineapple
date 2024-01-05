@@ -4,7 +4,7 @@ export interface KV {
   key: string
   value: string | number
 }
-function Map({ data, addLine }: { data: KV[]; addLine: React.MouseEventHandler }) {
+const KVList: React.FC<{ data: KV[]; addLine: React.MouseEventHandler }> = ({ data, addLine }) => {
   const [over, setOver] = useState(false)
   return (
     <>
@@ -31,4 +31,4 @@ function Map({ data, addLine }: { data: KV[]; addLine: React.MouseEventHandler }
   )
 }
 
-export default Map
+export default KVList

@@ -1,6 +1,6 @@
 import { useImmerReducer } from 'use-immer'
 import UrlInput from '../components/UrlInput'
-import Map, { KV } from '../components/Map'
+import KVList, { KV } from '../components/KVList'
 
 interface State {
   method: string
@@ -41,7 +41,7 @@ const reducer = (draft: State, action: Action) => {
       break
   }
 }
-function Home() {
+const Home: React.FC = () => {
   const initData: State = { method: 'GET', url: '', urlOptions: [], headers: [] }
   const [data, dispatch] = useImmerReducer(reducer, initData)
   return (
@@ -54,7 +54,7 @@ function Home() {
         send={() => alert(data)}
         expects={['http://', 'https://', 'http://localhost']}
       />
-      <Map data={data.headers} addLine={() => dispatch({ type: ActionType.A_HEADER })} />
+      <KVList data={data.headers} addLine={() => dispatch({ type: ActionType.A_HEADER })} />
     </>
   )
 }
