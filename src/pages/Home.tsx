@@ -37,7 +37,7 @@ const reducer = (draft: State, action: Action) => {
       draft.urlOptions = action.urlOptions
       break
     case ActionType.A_HEADER:
-      draft.headers.push({ key: '', value: '' })
+      draft.headers.push({ key: '', value: '', lineKey: 'hearder-' + Date.now() })
       break
   }
 }
