@@ -1,17 +1,13 @@
 import { useImmerReducer } from 'use-immer'
-import UrlInput from '../components/UrlInput'
-import KVList, { KV } from '../components/KVList'
+import { AutoComplete, Button, Select } from 'antd'
 
 interface State {
   method: string
   url: string
-  urlOptions: string[]
-  headers: KV[]
 }
 enum ActionType {
   U_METHOD,
   U_URL,
-  A_HEADER,
 }
 type Action =
   | {
@@ -21,10 +17,6 @@ type Action =
   | {
       type: ActionType.U_URL
       url: State['url']
-      urlOptions: State['urlOptions']
-    }
-  | {
-      type: ActionType.A_HEADER
     }
 
 const reducer = (draft: State, action: Action) => {
@@ -34,27 +26,26 @@ const reducer = (draft: State, action: Action) => {
       break
     case ActionType.U_URL:
       draft.url = action.url
-      draft.urlOptions = action.urlOptions
-      break
-    case ActionType.A_HEADER:
-      draft.headers.push({ key: '', value: '', lineKey: 'hearder-' + Date.now() })
       break
   }
 }
 const Home: React.FC = () => {
-  const initData: State = { method: 'GET', url: '', urlOptions: [], headers: [] }
+  const initData: State = { method: 'GET', url: '' }
   const [data, dispatch] = useImmerReducer(reducer, initData)
   return (
     <>
-      <UrlInput
-        method={data.method}
-        onChangeMethod={(v) => dispatch({ type: ActionType.U_METHOD, method: v.target.value })}
-        url={data.url}
-        onChangeUrl={(v) => dispatch({ type: ActionType.U_URL, url: v, urlOptions: [] })}
-        send={() => alert(data)}
-        expects={['http://', 'https://', 'http://localhost']}
-      />
-      <KVList data={data.headers} addLine={() => dispatch({ type: ActionType.A_HEADER })} />
+      <div style={{ display: 'flex', alignItems: 'center', width: '1000px' }}>
+        <Select value={data.method} options={[]} />
+        <AutoComplete
+          style={{ border: '0', margin: '8px 2px', flexGrow: 1 }}
+          value={data.url}
+          onChange={(v) => dispatch({ type: ActionType.U_URL, url: v })}
+          options={[{ value: 'http://localhost' }, { value: 'https://localhost' }]}
+        />
+        <Button style={{ marginLeft: '3px' }} onClick={() => console.log(JSON.stringify(data))}>
+          发送
+        </Button>
+      </div>
     </>
   )
 }
