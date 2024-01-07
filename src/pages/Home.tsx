@@ -1,4 +1,5 @@
 import { AutoComplete, Button, Form, Select, Space, Tabs, Typography } from 'antd'
+import TextArea from 'antd/es/input/TextArea'
 
 interface State {
   method: string
@@ -8,7 +9,10 @@ interface State {
 }
 const Home: React.FC = () => {
   const [form] = Form.useForm<State>()
-  const initialValues: State = { method: 'GET', url: '' }
+  const initialValues: State = {
+    method: 'GET',
+    url: '',
+  }
   return (
     <Form form={form} initialValues={initialValues}>
       <div style={{ display: 'flex', alignItems: 'center', width: '1000px' }}>
@@ -86,13 +90,21 @@ const Home: React.FC = () => {
               </Form.List>
             ),
           },
-          { key: 'body', label: 'Body', children: <></> },
+          {
+            key: 'body',
+            label: 'Body',
+            children: (
+              <>
+                <TextArea style={{ resize: 'none', height: '300px' }} />
+              </>
+            ),
+          },
         ]}
       />
       <Form.Item noStyle shouldUpdate>
         {() => (
           <Typography>
-            <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
+            <pre>{JSON.stringify(form.getFieldsValue())}</pre>
           </Typography>
         )}
       </Form.Item>
